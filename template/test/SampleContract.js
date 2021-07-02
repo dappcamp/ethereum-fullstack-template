@@ -6,6 +6,7 @@ describe("Sample Contract", () => {
 
     beforeEach(async () => {
         SampleContract = await ethers.getContractFactory("SampleContract");
+        sampleContract = await SampleContract.deploy();
     });
 
     it("emit greeting event when greet function is called", async () => {
