@@ -7,7 +7,6 @@
         "web-vitals": "^1.0.1"
       },
       "devDependencies": {
-        "@material-ui/core": "^4.11.4",
         "@nomiclabs/hardhat-ethers": "^2.0.2",
         "@nomiclabs/hardhat-waffle": "^2.0.1",
         "chai": "^4.3.4",
