@@ -7,7 +7,7 @@ This repository contains a `create-react-app` template that can be used to devel
 1. Install [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html) package
 
     ```bash
-    $ npm install create-react-app
+    $ npm install -g create-react-app
     ```
     
 2. Create a project using this template
