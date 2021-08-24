@@ -10,10 +10,11 @@ This repository contains a `create-react-app` template that can be used to devel
     $ create-react-app project-name --template ethereum-fullstack
     ```
 
-2. Setting up a network
+2. Switching to test network (RINKEBY)
 
-    * Replace `YOUR_ALCHEMY_API_KEY` with your api key from alchemy
-    * Replcae `YOUR_WALLET_PRIVATE_KEY` with your wallet's private key from metamask wallet
+    * Change line - `const NETWORK = LOCAL_NETWORK` to `const NETWORK = TEST_NETWORK` in `hardhat.config.js`
+    * Replace `YOUR_ALCHEMY_API_KEY` with your api key from alchemy in `.env` file
+    * Replace `YOUR_WALLET_PRIVATE_KEY` with your wallet's private key from metamask wallet in `.env` file
 
 3. Running test for sample contract
 
