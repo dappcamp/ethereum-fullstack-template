@@ -15,7 +15,7 @@
  const WALLET_PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY;
  
  let networks = {};
- if (NETWORK == LOCAL_NETWORK) {
+ if (NETWORK == TEST_NETWORK) {
     networks = {
      test_network: {
        url: `https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
