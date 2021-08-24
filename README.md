@@ -31,7 +31,6 @@ This repository contains a `create-react-app` template that can be used to devel
 Your environment will have following set up:
 
 - A sample frontend: Sample application which uses [Create React App](https://github.com/facebook/create-react-app) along with its test.
-- [Common utilities](./src/utils/common.js): Utilities to plug into dApps.
 - [Hardhat](https://hardhat.org/): An Ethereum development task runner and testing network.
 - [Mocha](https://mochajs.org/): A JavaScript test runner.
 - [Chai](https://www.chaijs.com/): A JavaScript assertion library.
