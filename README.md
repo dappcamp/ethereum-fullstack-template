@@ -6,33 +6,53 @@ This repository contains a `create-react-app` template that can be used to devel
 
 1. Install [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html) package
 
-    ```bash
-    $ npm install -g create-react-app
-    ```
-    
+   ```bash
+   $ npm install -g create-react-app
+   ```
+
 2. Create a project using this template
 
-    ```bash
-    $ create-react-app project-name --template ethereum-fullstack
-    ```
+   ```bash
+   $ create-react-app project-name --template ethereum-fullstack
+   ```
 
 3. Switching to test network (RINKEBY) (Optional)
 
-    * Please skip this step if you want to use local network
-    * Change line - `const NETWORK = LOCAL_NETWORK` to `const NETWORK = TEST_NETWORK` in `hardhat.config.js`
-    * Replace `YOUR_ALCHEMY_API_KEY` with your api key from alchemy in `.env` file
-    * Replace `YOUR_WALLET_PRIVATE_KEY` with your wallet's private key from metamask wallet in `.env` file
+   - Please skip this step if you want to use local network
+   - Change line - `const NETWORK = LOCAL_NETWORK` to `const NETWORK = TEST_NETWORK` in `hardhat.config.js`
+   - Replace `YOUR_ALCHEMY_API_KEY` with your api key from alchemy in `.env` file
+   - Replace `YOUR_WALLET_PRIVATE_KEY` with your wallet's private key from metamask wallet in `.env` file
 
 4. Running test for sample contract
 
-    ```bash
-    npx hardhat test
-    ```
+   ```bash
+   npx hardhat test
+   ```
 
-5. Running your app
-    ```bash
-    npm start
-    ```
+## Running your app locally
+
+1. Start your react frontend
+
+   ```bash
+   npm start
+   ```
+
+2. Start a hardhat node
+
+   ```bash
+   npx hardhat node
+   ```
+
+3. Connect hardhat node to Metamask
+
+   Open Metamask > Select the network dropdown from the top left > Select `Custom RPC` and enter the following details:
+
+   - Network Name: `<Enter a name for the network>`
+   - New RPC URL: `http://127.0.0.1:8545`
+   - Chain ID: `31337`
+
+   Click save. You can use this network to connect to the local hardhat node.
+
 ## What’s Included?
 
 Your environment will have following set up:
@@ -46,4 +66,4 @@ Your environment will have following set up:
 
 ## Trouble Shooting
 
-* `Error HH8: There's one or more errors in your config file` error: If you get this error try setting up your `YOUR_ALCHEMY_API_KEY` and `YOUR_WALLET_PRIVATE_KEY` in .env file
+- `Error HH8: There's one or more errors in your config file` error: If you get this error try setting up your `YOUR_ALCHEMY_API_KEY` and `YOUR_WALLET_PRIVATE_KEY` in .env file
