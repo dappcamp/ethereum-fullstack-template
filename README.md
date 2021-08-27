@@ -53,6 +53,12 @@ This repository contains a `create-react-app` template that can be used to devel
 
    Click save. You can use this network to connect to the local hardhat node.
 
+4. Connect your local hardhat account to Metamask for making transactions
+   - After running `npx hardhat node --network localhost` you will see 20 addresses logged in the console.
+   - To configure an account copy its private key from the console (i.e the text after `Private Key:`)
+   - Open Metamask > Click the account icon on top right > Import Account > Paste the private key you just copied > Import
+   - You should the account now connected with 10000 ETH
+
 ## What’s Included?
 
 Your environment will have following set up:
