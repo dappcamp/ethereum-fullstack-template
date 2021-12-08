@@ -26,3 +26,6 @@ yarn-error.log*
 artifacts
 cache
 *.env
+
+abi.json
+address.json
