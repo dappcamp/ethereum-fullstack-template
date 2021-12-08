@@ -1,40 +1,40 @@
 const hre = require("hardhat");
+const path = require("path");
 
-async function main() {
+async function main(contractName) {
     const [deployer] = await hre.ethers.getSigners();
 
-    const SampleContract = await hre.ethers.getContractFactory("SampleContract");
-    const sampleContract = await SampleContract.deploy();
+    const factoryOutput = await hre.ethers.getContractFactory(contractName);
+    const contract = await factoryOutput.deploy();
 
-    await sampleContract.deployed();
-    console.log("Sample Contract address:", sampleContract.address);
+    await contract.deployed();
+    console.log("Contract address:", contract.address);
 
-    saveFrontendFiles(sampleContract);
-
+    saveFrontendFiles(contractName, contract.address);
 }
 
-function saveFrontendFiles(contract) {
+function saveFrontendFiles(contractName, contractAddress) {
     const fs = require("fs");
-    const contractsDir = __dirname + "/../src/abis";
+    const contractsDir = path.join(__dirname, '..', 'src', 'contracts', contractName);
 
     if (!fs.existsSync(contractsDir)) {
         fs.mkdirSync(contractsDir);
     }
 
     fs.writeFileSync(
-        contractsDir + "/contract-address.json",
-        JSON.stringify({ SampleContract: contract.address }, undefined, 2)
+        contractsDir + "/address.json",
+        JSON.stringify({ address: contractAddress }, undefined, 2)
     );
 
-    const SampleContractArtifact = artifacts.readArtifactSync("SampleContract");
+    const artifact = artifacts.readArtifactSync(contractName);
 
     fs.writeFileSync(
-        contractsDir + "/SampleContract.json",
-        JSON.stringify(SampleContractArtifact, null, 2)
+        contractsDir + "/abi.json",
+        JSON.stringify(artifact, null, 2)
     );
 }
 
-main()
+main("NFTCollection")
     .then(() => process.exit(0))
     .catch(error => {
         console.log(error);
