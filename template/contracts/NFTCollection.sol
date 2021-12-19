@@ -11,7 +11,6 @@ contract NFTCollection is ERC721URIStorage, Ownable {
     uint256 public counter = 0;
 
     mapping(uint256 => Nft) public allNfts;
-    mapping(string => bool) public tokenURIExists;
 
     struct Nft {
         uint256 tokenId;
@@ -30,8 +29,6 @@ contract NFTCollection is ERC721URIStorage, Ownable {
     ) public onlyOwner returns (uint256) {
         counter++;
 
-        require(!tokenURIExists[tokenURI]);
-
         _mint(msg.sender, counter);
         _setTokenURI(counter, tokenURI);
 
@@ -40,8 +37,6 @@ contract NFTCollection is ERC721URIStorage, Ownable {
         Nft memory newNft = Nft(counter, tokenName, tokenURI, addr, price);
 
         allNfts[counter] = newNft;
-
-        tokenURIExists[tokenURI] = true;
     }
 
     function buyNft(uint256 _tokenId) public payable {
