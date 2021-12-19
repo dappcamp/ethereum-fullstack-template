@@ -45,7 +45,6 @@ contract NFTCollection is ERC721URIStorage, Ownable {
     }
 
     function buyNft(uint256 _tokenId) public payable {
-        require(msg.sender != address(0));
         require(_exists(_tokenId), "Token does not exist");
 
         address tokenOwner = ownerOf(_tokenId);
