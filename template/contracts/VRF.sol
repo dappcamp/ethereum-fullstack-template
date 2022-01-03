@@ -21,6 +21,7 @@ contract RandomNumberConsumer is VRFConsumerBase {
     uint256 public randomResult;
 
     event RandomNumberGenerated(bytes32 requestId, uint256 randomness);
+    event RandomNumberRequested(bytes32 requestId);
     
     /**
      * Constructor inherits VRFConsumerBase
@@ -46,6 +47,7 @@ contract RandomNumberConsumer is VRFConsumerBase {
     function getRandomNumber() public returns (bytes32 requestId) {
         require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK - fill contract with faucet");
         requestId = requestRandomness(keyHash, fee);
+        emit RandomNumberRequested(requestId);
     }
 
     /**

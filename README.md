@@ -1,75 +1,82 @@
-# Ethereum Fullstack Template
+# Chainlink Oracles setup
 
-This repository contains a `create-react-app` template that can be used to develop an ethereum dApp.
 
-## Quick Start
 
-1. Install [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html) package
+## Price Feeds
 
-   ```bash
-   $ npm install -g create-react-app
-   ```
+The contract present in `templates/contracts/PriceOracle.sol` shows how to fetch price data of ETH with respect to USD on chain in the contract which are required to build DeFi applications. It is setup for Kovan test chain. To setup any other pair other than ETH/USD prices or for any other chain, just change the proxy address from the [this list](https://docs.chain.link/docs/ethereum-addresses/)
 
-2. Create a project using this template
+To know more on how data feed works --> [Chainlink Data feed Doc](https://docs.chain.link/docs/using-chainlink-reference-contracts/)
 
-   ```bash
-   $ create-react-app project-name --template ethereum-fullstack
-   ```
+## VRF (Verifiable Random Functions)
 
-3. Switching to test network (RINKEBY) (Optional)
+A short explainer video of [VRF](https://www.youtube.com/watch?v=oZRXKiX5jjo&ab_channel=GreenSockMonkey)
 
-   - Please skip this step if you want to use local network
-   - Change line - `const NETWORK = LOCAL_NETWORK` to `const NETWORK = TEST_NETWORK` in `hardhat.config.js`
-   - Replace `YOUR_ALCHEMY_API_KEY` with your api key from alchemy in `.env` file
-   - Replace `YOUR_WALLET_PRIVATE_KEY` with your wallet's private key from metamask wallet in `.env` file
+Most of the chainlink oracles follows the [Request & Receive Data](https://docs.chain.link/docs/request-and-receive-data/) cycle. 
 
-4. Running test for sample contract
+In simple terms the process takes two transactions minimum. In the first transaction we first request the chainlink nodes to process and fetch us some data based on our given inputs. In that same request they generate and return a unique `requestId`. 
 
-   ```bash
-   npx hardhat test
-   ```
+In the second transaction they call our fulfill method with the `requestId` and the our requested data output. Now since we can modify and extend the fulfill method ourselves, we can either save that data in some state variable to be used in some other contract or function later or we can emit an event which can be captured by an off-chain system to be consumed and process further.
 
-## Running your app locally
+There is always some delay in between these two transactions and hence fetching data on-chain from off-chain activity using oracles takes time.
 
-1. Start your react frontend
+To process and fulfill these requests, chainlink takes a small `fee` in LINK Tokens. (0.1 LINK mostly). The request will fail if the contract doesn't own enough LINK tokens. Make sure you fund the contract with LINK tokens after deployment and before making requests. The steps to run VRF.sol are as follows
+
+1. Deploy the `RandomNumberConsumer.sol` to kovan (to change network, change )
 
    ```bash
-   npm start
+    const [deployer] = await hre.ethers.getSigners();
+
+    const vrfFactory = await hre.ethers.getContractFactory("RandomNumberConsumer");
+    const vrfContract = await vrfFactory.deploy();
+
+    await vrfContract.deployed();
+    console.log("vrfContract address:", vrfContract.address);
    ```
 
-2. Start a hardhat node
+2. Send some LINK tokens to the contract address which gets printed. You can get LINK tokens from [here](https://docs.chain.link/docs/acquire-link/)
+
+3. Request the contract for data and save the requestId
 
    ```bash
-   npx hardhat node
+    const tx = await vrfContract.getRandomNumber();
+    tx_receipt = await tx.await();
+    requestId = tx_receipt.events[2].topics[0];
    ```
 
-3. Connect hardhat node to Metamask
+4. Listen to the RandomNumberGenerated event wherever you need to use this random number off-chain
 
-   Open Metamask > Select the network dropdown from the top left > Select `Custom RPC` and enter the following details:
+   ```bash
+   vrfContract.on("RandomNumberGenerated", (requestId, randomNumber) => {
+                console.log(_requestId,randomNumber);
+            });
+   ```
+If you want to use this on-chain, then just call another function from the fulfillRandomness() with randomness as param.
 
-   - Network Name: `<Enter a name for the network>`
-   - New RPC URL: `http://127.0.0.1:8545`
-   - Chain ID: `31337`
+More documentation on [VRFs](https://docs.chain.link/docs/chainlink-vrf/)
 
-   Click save. You can use this network to connect to the local hardhat node.
+A better implementation of these contracts for production as well as local setup can found [here](https://github.com/pappas999/chainlink-hardhat-box)
 
-4. Connect your local hardhat account to Metamask for making transactions
-   - After running `npx hardhat node` you will see a list of 20 addresses logged in the terminal
-   - To configure an account copy its private key from the terminal (i.e the text after `Private Key:`)
-   - Open Metamask > Click the account icon on top right > Import Account > Paste the private key you just copied > click Import
-   - You should now have the account connected with 10000 ETH
+## External API
 
-## What’s Included?
+This contract uses ChainlinkClient which allows us to call any external API and use that data on-chain.
 
-Your environment will have following set up:
+It follows the same [Request & Receive Data](https://docs.chain.link/docs/request-and-receive-data/) cycle.
 
-- A sample frontend: Sample application which uses [Create React App](https://github.com/facebook/create-react-app) along with its test.
-- [Hardhat](https://hardhat.org/): An Ethereum development task runner and testing network.
-- [Mocha](https://mochajs.org/): A JavaScript test runner.
-- [Chai](https://www.chaijs.com/): A JavaScript assertion library.
-- [ethers.js](https://docs.ethers.io/ethers.js/html/): A JavaScript library for interacting with Ethereum.
-- [Waffle](https://github.com/EthWorks/Waffle/): To have Ethereum-specific Chai assertions/mathers.
+This contract implements a GET Request on `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD` with output as uin256
 
-## Trouble Shooting
 
-- `Error HH8: There's one or more errors in your config file` error: If you get this error try setting up your `YOUR_ALCHEMY_API_KEY` and `YOUR_WALLET_PRIVATE_KEY` in .env file
+We can follow the same steps as described in the VRF section to call and consume the data from this contract. If you need to change the output data type (currently it is a uint256) you will need to find a node which allows you to do so.
+
+As explained in the chainlink documentation below:
+
+The `oracle` keyword refers to a specific Chainlink node that a contract makes an API call from, and the `jobId` refers to a specific job for that node to run. Each job is unique and returns different types of data.
+
+For example, a job that returns a `bytes32` variable from an API would have a different `jobId` than a job that retrieved the same data, but in the form of a `uint256` variable.
+
+[market.link](https://market.link/) provides a searchable catalogue of Oracles, Jobs and their subsequent return types.
+
+Full detailed documentation can found [here](https://docs.chain.link/docs/make-a-http-get-request/)
+
+
+
