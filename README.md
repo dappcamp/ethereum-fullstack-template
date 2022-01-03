@@ -4,7 +4,7 @@
 
 ## Price Feeds
 
-The contract present in `templates/contracts/PriceOracle.sol` shows how to fetch price data of ETH with respect to USD on chain in the contract which are required to build DeFi applications. It is setup for Kovan test chain. To setup any other pair other than ETH/USD prices or for any other chain, just change the proxy address from the [this list](https://docs.chain.link/docs/ethereum-addresses/)
+The contract present in `template/contracts/PriceOracle.sol` shows how to fetch price data of ETH with respect to USD on chain in the contracts which are required to build DeFi applications. It has been setup for Kovan test chain. To setup any other pair other than ETH/USD prices or for any other chain, just change the proxy address from the [this list](https://docs.chain.link/docs/ethereum-addresses/)
 
 To know more on how data feed works --> [Chainlink Data feed Doc](https://docs.chain.link/docs/using-chainlink-reference-contracts/)
 
@@ -22,7 +22,7 @@ There is always some delay in between these two transactions and hence fetching 
 
 To process and fulfill these requests, chainlink takes a small `fee` in LINK Tokens. (0.1 LINK mostly). The request will fail if the contract doesn't own enough LINK tokens. Make sure you fund the contract with LINK tokens after deployment and before making requests. The steps to run VRF.sol are as follows
 
-1. Deploy the `RandomNumberConsumer.sol` to kovan (to change network, change )
+1. Deploy the `RandomNumberConsumer` to kovan (to change network, change )
 
    ```bash
     const [deployer] = await hre.ethers.getSigners();
@@ -63,10 +63,10 @@ This contract uses ChainlinkClient which allows us to call any external API and 
 
 It follows the same [Request & Receive Data](https://docs.chain.link/docs/request-and-receive-data/) cycle.
 
-This contract implements a GET Request on `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD` with output as uin256
+This contract implements a GET Request on `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD` with output data type as `uint256`.
 
 
-We can follow the same steps as described in the VRF section to call and consume the data from this contract. If you need to change the output data type (currently it is a uint256) you will need to find a node which allows you to do so.
+We can follow the same steps as described in the VRF section to call and consume the data from this contract. If you need to change the output data type (currently it is a uint256) you will need to find a node which allows you to do so. Or follow the steps explained in this short tutorial [here](https://www.youtube.com/watch?v=AtHp7me2Yks&t=90s&ab_channel=Chainlink)
 
 As explained in the chainlink documentation below:
 
@@ -76,7 +76,7 @@ For example, a job that returns a `bytes32` variable from an API would have a di
 
 [market.link](https://market.link/) provides a searchable catalogue of Oracles, Jobs and their subsequent return types.
 
-Full detailed documentation can found [here](https://docs.chain.link/docs/make-a-http-get-request/)
+Full detailed documentation can be found [here](https://docs.chain.link/docs/make-a-http-get-request/)
 
 
 
