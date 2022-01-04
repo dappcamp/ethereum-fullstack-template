@@ -10,23 +10,16 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 contract NFTCollection is ERC721URIStorage, Ownable {
     uint256 public counter = 0;
 
-    mapping(uint256 => Nft) public allNfts;
-
     struct Nft {
-        uint256 tokenId;
-        string tokenName;
         string tokenURI;
-        address payable currentOwner;
         uint256 price;
     }
 
+    mapping(uint256 => Nft) public allNfts;
+
     constructor() public ERC721("NFTCollection", "NFT") {}
 
-    function mintNft(
-        string memory tokenURI,
-        string memory tokenName,
-        uint256 price
-    ) public onlyOwner returns (uint256) {
+    function mintNft(string memory tokenURI, uint256 price) public onlyOwner {
         counter++;
 
         _mint(msg.sender, counter);
@@ -34,8 +27,7 @@ contract NFTCollection is ERC721URIStorage, Ownable {
 
         address payable addr = payable(msg.sender);
 
-        Nft memory newNft = Nft(counter, tokenName, tokenURI, addr, price);
-
+        Nft memory newNft = Nft(tokenURI, price);
         allNfts[counter] = newNft;
     }
 
@@ -43,23 +35,15 @@ contract NFTCollection is ERC721URIStorage, Ownable {
         require(_exists(_tokenId), "Token does not exist");
 
         address tokenOwner = ownerOf(_tokenId);
-        require(tokenOwner != address(0));
         require(tokenOwner != msg.sender, "You already own this token");
 
         Nft memory nft = allNfts[_tokenId];
 
-        require(nft.currentOwner == owner(), "NFT has already been bought");
+        require(msg.value >= nft.price, "Not enough ETH sent; check price!");
 
-        require(msg.value >= nft.price, "Not enough ETH sent; check price!!!!");
+        address payable tokenOwnerAddr = payable(tokenOwner);
+        tokenOwnerAddr.transfer(msg.value);
 
         _transfer(tokenOwner, msg.sender, _tokenId);
-
-        address payable sendTo = nft.currentOwner;
-
-        sendTo.transfer(msg.value);
-
-        address payable addr = payable(msg.sender);
-        nft.currentOwner = addr;
-        allNfts[_tokenId] = nft;
     }
 }
