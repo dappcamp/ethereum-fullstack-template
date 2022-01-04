@@ -15,19 +15,19 @@ export default function NFT({
     contractOwner,
     buyHandler
   ) => {
-    if (currentAccount === contractOwner) {
+    if (currentAccount.toLowerCase() === contractOwner.toLowerCase()) {
       return {
         handler: () => {},
         disabled: true,
         text: "You minted this NFT",
       };
-    } else if (currentOwner === currentAccount) {
+    } else if (currentOwner.toLowerCase() === currentAccount.toLowerCase()) {
       return {
         handler: () => {},
         disabled: true,
         text: "You own this NFT",
       };
-    } else if (currentOwner !== contractOwner) {
+    } else if (currentOwner.toLowerCase() !== contractOwner.toLowerCase()) {
       return {
         handler: () => {},
         disabled: true,

@@ -12,6 +12,19 @@ export const getSignedContract = (address, contractABI) => {
     return null
 }
 
+export const updateProviderAndContract = (address, contractABI, setProvider, setContract) => {
+    const { ethereum } = window;
+
+    if (!ethereum) return
+
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(address, contractABI, signer);
+
+    setProvider(provider);
+    setContract(contract);
+}
+
 export const checkIfWalletIsConnected = async (setCurrentAccount) => {
     try {
         const { ethereum } = window;
@@ -24,8 +37,6 @@ export const checkIfWalletIsConnected = async (setCurrentAccount) => {
         }
 
         const accounts = await ethereum.request({ method: 'eth_accounts' });
-
-        console.log({ accounts })
 
         if (accounts.length !== 0) {
             const account = accounts[0];
@@ -53,3 +64,31 @@ export const connectWallet = async (setCurrentAccount) => {
         console.log(error)
     }
 }
+
+export const mintNft = async (contract, tokenURI, price) => {
+    try {
+        if (!contract) {
+            return;
+        }
+
+        const txn = await contract.mintNft(tokenURI, price);
+        await txn.wait();
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const buyNft = async (contract, tokenId, price) => {
+    try {
+        if (!contract) {
+            return;
+        }
+
+        const txn = await contract.buyNft(tokenId, {
+            value: ethers.utils.parseEther(price.toString()),
+        });
+        await txn.wait();
+    } catch (error) {
+        console.log(error);
+    }
+};

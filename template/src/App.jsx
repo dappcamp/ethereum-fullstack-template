@@ -1,25 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import { abi as contractABI } from "./contracts/NFTCollection/abi.json";
-import { address } from "./contracts/NFTCollection/address.json";
+import abiJson from "./contracts/NFTCollection/abi.json";
+import addressJson from "./contracts/NFTCollection/address.json";
 
 import Header from "./components/Header.jsx";
+import ConnectWithMetaMaskButton from "./components/ConnectWithMetaMaskButton";
 
 import Home from "./pages/Home.jsx";
 import Mint from "./pages/Mint.jsx";
 
-import { checkIfWalletIsConnected, getSignedContract } from "./utils/common.js";
+import {
+  checkIfWalletIsConnected,
+  getSignedContract,
+  updateProviderAndContract,
+} from "./utils/common.js";
 
 import "./App.css";
-import ConnectWithMetaMaskButton from "./components/ConnectWithMetaMaskButton";
 
 export default function App() {
   const [contractOwner, setContractOwner] = useState("");
   const [currentAccount, setCurrentAccount] = useState("");
+  const [provider, setProvider] = useState(null);
+  const [contract, setContract] = useState(null);
+
+  const address = addressJson.address;
+  const contractABI = abiJson.abi;
 
   useEffect(() => {
     checkIfWalletIsConnected(setCurrentAccount);
+    updateProviderAndContract(address, contractABI, setProvider, setContract);
   }, []);
 
   useEffect(() => {
@@ -60,10 +70,10 @@ export default function App() {
         )}
         <Switch>
           <Route path="/mint">
-            <Mint {...{ contractOwner, currentAccount }} />
+            <Mint {...{ contractOwner, currentAccount, provider, contract }} />
           </Route>
           <Route path="/">
-            <Home {...{ contractOwner, currentAccount }} />
+            <Home {...{ contractOwner, currentAccount, provider, contract }} />
           </Route>
         </Switch>
       </div>

@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { abi as contractABI } from "../contracts/NFTCollection/abi.json";
-import { address } from "../contracts/NFTCollection/address.json";
-
-import { getSignedContract } from "../utils/common.js";
-
-import { ethers } from "ethers";
 
 import NoNFTsIllustration from "../components/NoNFTsIllustration.jsx";
 import NFT from "../components/NFT.jsx";
 
+import { buyNft } from "../utils/common.js";
+
 import "../App.css";
 
-export default function Home({ currentAccount, contractOwner }) {
+export default function Home({ currentAccount, contractOwner, contract }) {
   const [nfts, setNfts] = useState([]);
   const [nftsLoaded, setNftsLoaded] = useState(false);
 
@@ -19,10 +15,10 @@ export default function Home({ currentAccount, contractOwner }) {
     fetchNfts();
   }, [currentAccount]);
 
+  useEffect(() => {}, [nfts]);
+
   const fetchNfts = async () => {
     try {
-      const contract = getSignedContract(address, contractABI);
-
       if (!contract) {
         return;
       }
@@ -37,7 +33,19 @@ export default function Home({ currentAccount, contractOwner }) {
           .fill()
           .map(async (_, index) => {
             const tokenId = index + 1;
-            return await contract.allNfts(tokenId);
+            const nft = await contract.allNfts(tokenId);
+            const ownerOf = await contract.ownerOf(tokenId);
+
+            const response = await (await fetch(nft?.tokenURI)).json();
+            const { image, name } = response;
+
+            return {
+              tokenId,
+              imageUrl: image,
+              name,
+              price: hexToInt(nft?.price._hex),
+              currentOwner: ownerOf,
+            };
           })
       );
 
@@ -46,23 +54,6 @@ export default function Home({ currentAccount, contractOwner }) {
     } catch (error) {
       console.log("fetchNfts error: ", error);
       setNftsLoaded(true);
-    }
-  };
-
-  const buyNft = async (tokenId, price) => {
-    try {
-      const contract = getSignedContract(address, contractABI);
-
-      if (!contract) {
-        return;
-      }
-
-      const txn = await contract.buyNft(tokenId, {
-        value: ethers.utils.parseEther(price.toString()),
-      });
-      await txn.wait();
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -81,15 +72,13 @@ export default function Home({ currentAccount, contractOwner }) {
             {nfts.map((nft, index) => {
               return (
                 <NFT
-                  imageUrl={nft.tokenURI}
+                  imageUrl={nft.imageUrl}
                   title={nft.tokenName}
-                  price={hexToInt(nft.price._hex)}
-                  currentOwner={nft.currentOwner.toLowerCase()}
+                  price={nft.price}
+                  currentOwner={nft.currentOwner}
                   contractOwner={contractOwner}
                   currentAccount={currentAccount}
-                  buyHandler={() =>
-                    buyNft(hexToInt(nft.tokenId._hex), hexToInt(nft.price._hex))
-                  }
+                  buyHandler={() => buyNft(contract, nft.tokenId, nft.price)}
                 />
               );
             })}
