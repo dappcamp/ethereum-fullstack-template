@@ -1,5 +1,5 @@
 {
-	"name": "ethereum-fullstack-template",
+	"name": "ethereum-fullstack-faucet-template",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
