@@ -1,29 +1,17 @@
-# Ethereum Fullstack Template
+# niftyconnect
 
-This repository contains a `create-react-app` template that can be used to develop an ethereum dApp.
+Portal Web3 Social Graph
 
 ## Quick Start
 
-1. Install [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html) package
-
-   ```bash
-   $ npm install -g create-react-app
-   ```
-
-2. Create a project using this template
-
-   ```bash
-   $ create-react-app project-name --template ethereum-fullstack
-   ```
-
-3. Switching to test network (RINKEBY) (Optional)
+- Switching to test network (RINKEBY) (Optional)
 
    - Please skip this step if you want to use local network
    - Change line - `const NETWORK = LOCAL_NETWORK` to `const NETWORK = TEST_NETWORK` in `hardhat.config.js`
    - Replace `YOUR_ALCHEMY_API_KEY` with your api key from alchemy in `.env` file
    - Replace `YOUR_WALLET_PRIVATE_KEY` with your wallet's private key from metamask wallet in `.env` file
 
-4. Running test for sample contract
+- Running test for sample contract
 
    ```bash
    npx hardhat test

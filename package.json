@@ -1,24 +1,47 @@
 {
-  "name": "cra-template-ethereum-fullstack",
-  "version": "1.1.2",
-  "keywords": [
-    "react",
-    "create-react-app",
-    "simple",
-    "template",
-    "ethereum",
-    "fullstack"
-  ],
-  "description": "The base template for Ethereum fullstack app.",
-  "license": "MIT",
-  "engines": {
-    "node": ">=12"
+  "name": "niftyconnect",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "web-vitals": "^1.1.2"
   },
-  "bugs": {
-    "url": "https://github.com/facebook/create-react-app/issues"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "files": [
-    "template",
-    "template.json"
-  ]
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.4",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.3",
+    "hardhat": "^2.8.2"
+  }
 }
