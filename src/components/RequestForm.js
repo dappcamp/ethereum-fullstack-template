@@ -10,7 +10,7 @@ import { getEther, donateEther } from "../utils";
 function RequestForm() {
 	const [walletAddr, setWalletAddr] = useState();
 	const [etherReq, setEtherReq] = useState();
-	const [etherDonate, setEtherDonate] = useState();
+	const [etherToDonate, setEtherDonate] = useState();
 	const [requestLoading, setRequestLoading] = useState(false);
 	const [donateLoading, setDonateLoading] = useState(false);
 
@@ -30,7 +30,7 @@ function RequestForm() {
 		await donateEther(
 			FaucetContract.FaucetContractAddr,
 			EthereumFaucet,
-			etherDonate
+			etherToDonate
 		);
 		setDonateLoading(false);
 	}
