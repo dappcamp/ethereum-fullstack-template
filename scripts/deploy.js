@@ -5,7 +5,9 @@ async function main(contractName) {
     const [deployer] = await hre.ethers.getSigners();
 
     const factoryOutput = await hre.ethers.getContractFactory(contractName);
-    const contract = await factoryOutput.deploy();
+    const baseURL="https://gateway.pinata.cloud/ipfs/QmWb5F3tUsAYSVL2W8hAGefij56jarExUdRwweMaLBGQjg/";
+
+    const contract = await factoryOutput.deploy(baseURL);
 
     await contract.deployed();
     console.log("deployer : ", deployer);
