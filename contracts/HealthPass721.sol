@@ -18,17 +18,17 @@ contract HealthPass721 is ERC721URIStorage, Ownable {
     }
 
     function awardCertificate(address user)
-        public
+        public 
         onlyOwner
+        
         returns (uint256)
     {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
-        _mint(user, newItemId);
-
-        _setTokenURI(newItemId, "http://example.com/master.json");
-
+        _safeMint(user, newItemId);
+      
+   
         return newItemId;
     }
 }

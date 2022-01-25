@@ -1,20 +1,20 @@
 const hre = require("hardhat");
+const path = require("path");
 
-async function main() {
+async function main(contractName) {
     const [deployer] = await hre.ethers.getSigners();
-    console.log(deployer);
 
-    const SampleContract = await hre.ethers.getContractFactory("HealthPass721");
-    const sampleContract = await SampleContract.deploy();
+    const factoryOutput = await hre.ethers.getContractFactory(contractName);
+    const contract = await factoryOutput.deploy();
 
-    await sampleContract.deployed();
-    console.log("Sample Contract address:", sampleContract.address);
+    await contract.deployed();
+    console.log("deployer : ", deployer);
+    console.log("Contract address:", contract.address);
 
-    saveFrontendFiles(sampleContract);
-
+    saveFrontendFiles(contractName, contract.address);
 }
 
-function saveFrontendFiles(contract) {
+function saveFrontendFiles(contractName, contractAddress) {
     const fs = require("fs");
     const contractsDir = __dirname + "/../src/abis";
 
@@ -23,19 +23,19 @@ function saveFrontendFiles(contract) {
     }
 
     fs.writeFileSync(
-        contractsDir + "/contract-address.json",
-        JSON.stringify({ SampleContract: contract.address }, undefined, 2)
+        contractsDir + "/address.json",
+        JSON.stringify({ address: contractAddress }, undefined, 2)
     );
 
-    const SampleContractArtifact = artifacts.readArtifactSync("HealthPass721");
+    const artifact = artifacts.readArtifactSync(contractName);
 
     fs.writeFileSync(
-        contractsDir + "/HealthPass721.json",
-        JSON.stringify(SampleContractArtifact, null, 2)
+        contractsDir + "/abi.json",
+        JSON.stringify(artifact, null, 2)
     );
 }
 
-main()
+main("HealthPass721")
     .then(() => process.exit(0))
     .catch(error => {
         console.log(error);
