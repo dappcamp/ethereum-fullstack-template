@@ -1,29 +1,21 @@
-# Ethereum Fullstack Template
-
-This repository contains a `create-react-app` template that can be used to develop an ethereum dApp.
+# Health Pass
 
 ## Quick Start
 
-1. Install [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html) package
+1. Deploy Contract
 
-   ```bash
-   $ npm install -g create-react-app
+```bash
+   npx hardhat run --network localhost scripts/deploy.js
    ```
 
-2. Create a project using this template
-
-   ```bash
-   $ create-react-app project-name --template ethereum-fullstack
-   ```
-
-3. Switching to test network (RINKEBY) (Optional)
+1. Switching to test network (RINKEBY) (Optional)
 
    - Please skip this step if you want to use local network
    - Change line - `const NETWORK = LOCAL_NETWORK` to `const NETWORK = TEST_NETWORK` in `hardhat.config.js`
    - Replace `YOUR_ALCHEMY_API_KEY` with your api key from alchemy in `.env` file
    - Replace `YOUR_WALLET_PRIVATE_KEY` with your wallet's private key from metamask wallet in `.env` file
 
-4. Running test for sample contract
+4. Running test for contract.
 
    ```bash
    npx hardhat test
@@ -59,17 +51,3 @@ This repository contains a `create-react-app` template that can be used to devel
    - Open Metamask > Click the account icon on top right > Import Account > Paste the private key you just copied > click Import
    - You should now have the account connected with 10000 ETH
 
-## What’s Included?
-
-Your environment will have following set up:
-
-- A sample frontend: Sample application which uses [Create React App](https://github.com/facebook/create-react-app) along with its test.
-- [Hardhat](https://hardhat.org/): An Ethereum development task runner and testing network.
-- [Mocha](https://mochajs.org/): A JavaScript test runner.
-- [Chai](https://www.chaijs.com/): A JavaScript assertion library.
-- [ethers.js](https://docs.ethers.io/ethers.js/html/): A JavaScript library for interacting with Ethereum.
-- [Waffle](https://github.com/EthWorks/Waffle/): To have Ethereum-specific Chai assertions/mathers.
-
-## Trouble Shooting
-
-- `Error HH8: There's one or more errors in your config file` error: If you get this error try setting up your `YOUR_ALCHEMY_API_KEY` and `YOUR_WALLET_PRIVATE_KEY` in .env file
