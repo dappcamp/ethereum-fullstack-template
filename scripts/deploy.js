@@ -2,8 +2,9 @@ const hre = require("hardhat");
 
 async function main() {
     const [deployer] = await hre.ethers.getSigners();
+    console.log(deployer);
 
-    const SampleContract = await hre.ethers.getContractFactory("SampleContract");
+    const SampleContract = await hre.ethers.getContractFactory("HealthPass721");
     const sampleContract = await SampleContract.deploy();
 
     await sampleContract.deployed();
@@ -26,10 +27,10 @@ function saveFrontendFiles(contract) {
         JSON.stringify({ SampleContract: contract.address }, undefined, 2)
     );
 
-    const SampleContractArtifact = artifacts.readArtifactSync("SampleContract");
+    const SampleContractArtifact = artifacts.readArtifactSync("HealthPass721");
 
     fs.writeFileSync(
-        contractsDir + "/SampleContract.json",
+        contractsDir + "/HealthPass721.json",
         JSON.stringify(SampleContractArtifact, null, 2)
     );
 }
