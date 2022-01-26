@@ -21,7 +21,7 @@ contract HealthPass721 is ERC721URIStorage, Ownable {
 
   mapping(address => VaccineDetails[]) vaccineDetailsMapping ;
 
-  event CertificateIssued(uint,VaccineDetails);
+  event CertificateIssued(uint indexed id,VaccineDetails vaccineDetails);
   string baseURL;
     
 
@@ -43,10 +43,9 @@ contract HealthPass721 is ERC721URIStorage, Ownable {
         baseURL=url;
     }
 
+    // Have removed  modifiers to test out
     function awardCertificate(address user, VaccineDetails memory vaccineDetails)
         public 
-        onlyOwner
-        isUserEligibleForCertificate(user)
         returns (uint256)
     {
         _tokenIds.increment();
