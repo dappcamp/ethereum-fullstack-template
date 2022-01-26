@@ -24,7 +24,7 @@ export default function Header({ isOwner }) {
         </nav>
         <div>
           <p className="flex order-first lg:order-none title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0">
-            <span className="text-l">PureMeds by &nbsp;</span>
+            <span className="text-l">NFT Collection by &nbsp;</span>
             <a href="https://dappcamp.xyz" target="_blank">
               <img
                 src="https://www.dappcamp.xyz/dappcamp_logo.png"
