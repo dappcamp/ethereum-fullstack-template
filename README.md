@@ -49,5 +49,6 @@
    - After running `npx hardhat node` you will see a list of 20 addresses logged in the terminal
    - To configure an account copy its private key from the terminal (i.e the text after `Private Key:`)
    - Open Metamask > Click the account icon on top right > Import Account > Paste the private key you just copied > click Import
-   - You should now have the account connected with 10000 ETH
+   - You should now have the account connected with 10000 ETH 
+   
 
