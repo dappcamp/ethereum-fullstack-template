@@ -20,5 +20,8 @@
   "files": [
     "template",
     "template.json"
-  ]
+  ],
+  "dependencies": {
+    "web3uikit": "^0.1.149"
+  }
 }
