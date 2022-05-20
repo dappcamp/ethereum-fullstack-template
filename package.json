@@ -22,6 +22,7 @@
     "template.json"
   ],
   "dependencies": {
-    "web3uikit": "^0.1.149"
+    "@openzeppelin/contracts": "^4.6.0",
+    "web3uikit": "^0.1.41"
   }
 }
