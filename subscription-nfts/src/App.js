@@ -1,6 +1,5 @@
 import Header from './components/all-pages/Header';
-import { Link, Route, Router, Routes, BrowserRouter } from 'react-router-dom';
-// import { Switch } from 'react-router';
+import { Link, Route, Routes, BrowserRouter } from 'react-router-dom';
 import HomePage from './components/home-page/HomePage';
 import CreatorBuyer from './components/creator-or-buyer/CreatorBuyer';
 import CreatorForm from './components/creator-form/CreatorForm';
