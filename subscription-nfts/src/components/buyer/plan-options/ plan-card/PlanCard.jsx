@@ -4,20 +4,19 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
+import PricingOptions from './pricing-options/PricingOptions';
 
-export default function ProjectCard({ data }) {
+export default function PlanCard({ plan }) {
     return (
-        <Grid item>
+        <Grid item xs={4} >
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
                     <Typography variant="h5">
-                        {data.name}
+                        {plan.name}
                     </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {data.account}
-                    </Typography>
-                    <Typography variant="body2">
-                        {data.description}
+                    <PricingOptions pricing={plan.pricing} />
+                    <Typography variant="body1">
+                        Expiration Date: {plan.expirationDate}
                     </Typography>
                 </CardContent>
                 <CardActions>

@@ -4,7 +4,7 @@ import CreatorCard from './creator-card/CreatorCard';
 
 export default function CreatorBuyer() {
     return (
-        <Grid container justifyContent="center" spacing = {6}>
+        <Grid container justifyContent="center" spacing ={6}>
             <Grid item >
                 <BuyerCard />
             </Grid>
