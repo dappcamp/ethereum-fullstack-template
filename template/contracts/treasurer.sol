@@ -28,11 +28,12 @@ contract treasurer {
     }
     function withdrawtETF(uint amount) public {
         require(amount<=tETFByAddress(msg.sender),"You do not hold enough tETF.");
-        msg.sender.transfer(address())
+        msg.sender.transfer(address());
+        tETFByAddress(msg.sender)-=amount;
     }
-    function deposit(uint amount) public payable {
+    function deposit(address from, uint amount) public payable {
         require(msg.value == amount);
-        usdcByAddress[msg.sender]+=amount;
+        usdcByAddress[from]+=amount;
     }
 
     function getUSDCBalance() public view returns (uint) {
