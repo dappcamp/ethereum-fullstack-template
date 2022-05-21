@@ -22,9 +22,12 @@ contract treasurer {
 
     function withdrawUSDC(uint amount) public {
         require(owner == msg.sender);
+        require(amount<=usdcByAddress(msg.sender),"You do not hold enough USDC");
         msg.sender.transfer(address(this).balance);
+        usdcByAddress(msg.sender)-=amount;
     }
     function withdrawtETF(uint amount) public {
+        require(amount<=tETFByAddress(msg.sender),"You do not hold enough tETF.");
         msg.sender.transfer(address())
     }
     function deposit(uint amount) public payable {
