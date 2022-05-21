@@ -16,19 +16,30 @@ function App() {
         <nav
           style={{
             border: "solid 1px",
-            margin: "1rem",
+            padding: "10px",
+            margin: "10px"
           }}
         >
-          <Link to="/creator-or-buyer">Creator or Buyer</Link>
-          <Link to="/creator-form">Creator Form</Link>
-          <Link to="/select-project">Provide Project ID</Link>
-          <Link to="/mint-nft">Mint NFT</Link>
-          <Link to="/plan-options">See Plan Options</Link>
+          <Link to="/creator-or-buyer" style={{ padding: "5px", margin: "5px"}}>
+            Creator or Buyer
+          </Link>
+          <Link to="/creator-form" style={{ padding: "5px", margin: "5px"}}>
+            Creator Form
+          </Link>
+          <Link to="/select-project" style={{ padding: "5px", margin: "5px"}}>
+            Provide Project ID
+          </Link>
+          <Link to="/mint-nft" style={{ padding: "5px", margin: "5px"}}>
+            Mint NFT
+          </Link>
+          <Link to="/plan-options" style={{ padding: "5px", margin: "5px"}}>
+            See Plan Options
+          </Link>
         </nav>
 
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/creator-or-buyor" element={<CreatorBuyer />} />
+          <Route path="/creator-or-buyer" element={<CreatorBuyer />} />
           <Route path="/creator-form" element={<CreatorForm />} />
           <Route path="/select-project" element={<BuyerSelectProject />} />
           <Route path="/mint-nft" element={<MintNFT />} />
