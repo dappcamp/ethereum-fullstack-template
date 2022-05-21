@@ -27,7 +27,7 @@ function App() {
             Creator Form
           </Link>
           <Link to="/select-project" style={{ padding: "5px", margin: "5px"}}>
-            Provide Project ID
+            Select Project
           </Link>
           <Link to="/mint-nft" style={{ padding: "5px", margin: "5px"}}>
             Mint NFT
