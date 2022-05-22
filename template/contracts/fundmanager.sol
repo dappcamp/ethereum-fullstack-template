@@ -11,7 +11,7 @@ import "@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 
 
-contract Swap {
+contract Invest {
     /**
         @dev Router used to interact with V3 pools and perform Swaps
     */
@@ -81,6 +81,16 @@ contract Swap {
 
         amountOut = uniswapRouter.exactInputSingle(params);
         return amountOut;
+    }
+
+    function IndexInvestment(
+        string tEtf,
+        uint256 investmentAmount
+    ) internal returns (uint256 numofTokens) {
+        require(investmentAmount > 0, "Must pass non 0 input amount");
+
+        // calculate numoftokens
+        return numOfTokens;
     }
 
 }
