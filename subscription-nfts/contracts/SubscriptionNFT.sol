@@ -35,24 +35,24 @@ contract SubscriptionNFT is ERC721 {
 
     constructor() ERC721("SubscriptionNFT", "SUB") {}
 
-  function issueSubscriptionNFT(address recipient, uint256 subscriptionTemplateId, uint256 subscriptionOptionSelectionIndex) public returns (uint256) {
+    function issueSubscriptionNFT(address recipient, uint256 subscriptionTemplateId, uint256 subscriptionOptionSelectionIndex) public returns (uint256) {
 
-    // TODO implement payment logic
+        // TODO implement payment logic
 
-    _tokenIds.increment();
+        _tokenIds.increment();
 
-    uint256 newTokenId = _tokenIds.current();
+        uint256 newTokenId = _tokenIds.current();
 
-    _mint(recipient, newTokenId);
+        _mint(recipient, newTokenId);
 
-    SubscriptionOption memory selectedSubscriptionOption = _subscriptionTemplates[subscriptionTemplateId].subscriptionOptions[subscriptionOptionSelectionIndex];
+        SubscriptionOption memory selectedSubscriptionOption = _subscriptionTemplates[subscriptionTemplateId].subscriptionOptions[subscriptionOptionSelectionIndex];
 
-    _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
-    _tokenDatas[newTokenId].creatorAddress = _subscriptionTemplates[subscriptionTemplateId].creatorAddress;
-    _tokenDatas[newTokenId].accessTier = selectedSubscriptionOption.accessTier;
-    _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionOption.term;
+        _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
+        _tokenDatas[newTokenId].creatorAddress = _subscriptionTemplates[subscriptionTemplateId].creatorAddress;
+        _tokenDatas[newTokenId].accessTier = selectedSubscriptionOption.accessTier;
+        _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionOption.term;
 
-    return newTokenId;
-  }
+        return newTokenId;
+    }
 
 }
