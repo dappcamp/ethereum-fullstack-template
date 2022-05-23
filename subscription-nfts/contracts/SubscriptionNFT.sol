@@ -9,14 +9,28 @@ contract SubscriptionNFT is ERC721 {
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
+    Counters.Counter private _SubscriptionTemplateIds;
 
     struct TokenData {
         address creatorAddress;
         string accessTier;
-        uint256 expiration_time;
+        uint256 expirationTime;
+        uint256 subscriptionTemplateId;
     }
 
     mapping(uint256 => TokenData) private _tokenDatas;
+
+    struct subscriptionOption {
+        string accessTier;
+        uint256 price;
+    }
+
+    struct SubscriptionTemplate {
+        address creatorAddress;
+        subscriptionOption[] subscriptionOptions;
+    }
+
+    mapping(uint256 => SubscriptionTemplate) private _subscriptionTemplates;
 
     constructor() ERC721("SubscriptionNFT", "SUB") {}
 
