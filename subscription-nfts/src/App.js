@@ -28,11 +28,11 @@ function App() {
           <Link to="/select-project" style={{ padding: "5px", margin: "5px"}}>
             Select Project
           </Link>
-          <Link to="/mint-nft" style={{ padding: "5px", margin: "5px"}}>
-            Mint NFT
-          </Link>
           <Link to="/plan-options" style={{ padding: "5px", margin: "5px"}}>
             See Plan Options
+          </Link>
+          <Link to="/mint-nft" style={{ padding: "5px", margin: "5px"}}>
+            Mint NFT
           </Link>
         </nav>
 
@@ -41,8 +41,8 @@ function App() {
           <Route path="/creator-or-buyer" element={<CreatorBuyer />} />
           <Route path="/creator-form" element={<CreatorForm />} />
           <Route path="/select-project" element={<BuyerSelectProject />} />
-          <Route path="/mint-nft" element={<MintNFT />} />
           <Route path="/plan-options" element={<PlanOptions />} />
+          <Route path="/mint-nft" element={<MintNFT />} />
         </Routes>
       </div>
     </BrowserRouter>
