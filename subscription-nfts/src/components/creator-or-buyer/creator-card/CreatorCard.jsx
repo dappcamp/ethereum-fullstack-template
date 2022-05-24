@@ -3,8 +3,14 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreatorCard() {
+    let navigate = useNavigate();
+    function handleClick() {
+        navigate("/creator-form");
+    }
+
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
@@ -13,7 +19,10 @@ export default function CreatorCard() {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Create Subscription</Button>
+                <Button 
+                    size="small"
+                    onClick={handleClick}
+                >Create Subscription</Button>
             </CardActions>
         </Card>
     );
