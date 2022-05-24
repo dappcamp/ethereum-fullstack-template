@@ -1,7 +1,13 @@
+import { Button } from '@mui/material';
+import { connectWallet } from '../../utils/common';
+
 export default function ConnectWallet() {
     return (
-        <main style={{ padding: "1rem 0" }}>
-            <button>Connect Wallet</button>
-        </main>
+        <Button
+            variant="contained"
+            onClick={connectWallet}
+        >
+            Connect Wallet
+        </Button>
     );
 }
