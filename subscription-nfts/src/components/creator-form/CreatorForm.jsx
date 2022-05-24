@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Typography, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import * as React from 'react';
 
 export default function CreatorForm() {
@@ -235,6 +235,13 @@ export default function CreatorForm() {
                                 </Select>
                             </FormControl>
                         </Grid>
+                    </Grid>
+                    <Grid item>
+                        <Button 
+                            variant="contained"
+                        >
+                            Submit
+                        </Button>
                     </Grid>
                 </Grid>
             </div>
