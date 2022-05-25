@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 export default function BuyerCard() {
     let navigate = useNavigate();
     function handleClick() {
-        console.log('clicked');
         navigate("/select-project");
     }
 

@@ -3,13 +3,13 @@ const hre = require("hardhat");
 async function main() {
     const [deployer] = await hre.ethers.getSigners();
 
-    const SampleContract = await hre.ethers.getContractFactory("SampleContract");
-    const sampleContract = await SampleContract.deploy();
+    const SubscriptionNFTContract = await hre.ethers.getContractFactory("SubscriptionNFT");
+    const subscriptionNFTContract = await SubscriptionNFTContract.deploy();
 
-    await sampleContract.deployed();
-    console.log("Sample Contract address:", sampleContract.address);
+    await subscriptionNFTContract.deployed();
+    console.log("Subscription NFT contract address:", subscriptionNFTContract.address);
 
-    saveFrontendFiles(sampleContract);
+    saveFrontendFiles(subscriptionNFTContract);
 
 }
 
@@ -23,14 +23,14 @@ function saveFrontendFiles(contract) {
 
     fs.writeFileSync(
         contractsDir + "/contract-address.json",
-        JSON.stringify({ SampleContract: contract.address }, undefined, 2)
+        JSON.stringify({ SubscriptionNFTContract: contract.address }, undefined, 2)
     );
 
-    const SampleContractArtifact = artifacts.readArtifactSync("SampleContract");
+    const SubscriptionNFTContractArtifact = artifacts.readArtifactSync("SubscriptionNFT");
 
     fs.writeFileSync(
-        contractsDir + "/SampleContract.json",
-        JSON.stringify(SampleContractArtifact, null, 2)
+        contractsDir + "/SubscriptionNFTContract.json",
+        JSON.stringify(SubscriptionNFTContractArtifact, null, 2)
     );
 }
 
