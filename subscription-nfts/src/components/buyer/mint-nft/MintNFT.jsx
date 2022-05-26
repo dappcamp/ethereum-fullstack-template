@@ -4,15 +4,20 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const nftData = {
     name: 'NY Times',
     account: '0xb794f5ea0ba39494ce839613fffba74279579269',
-    description: 'News subscription',
-    picUrl: 'https://images.app.goo.gl/YULhKVaadvRiomJy8'
+    description: 'News subscription'
 };
 
 export default function MintNFT() {
+    let navigate = useNavigate();
+    function handleClick() {
+        navigate("/mint-confirmation");
+    }
+
     return (
         <div justifyContent="center">
             <Grid item>
@@ -29,7 +34,10 @@ export default function MintNFT() {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="medium">Mint NFT</Button>
+                        <Button 
+                            size="medium"
+                            onClick={handleClick}    
+                        >Mint NFT</Button>
                     </CardActions>
                 </Card>
             </Grid>

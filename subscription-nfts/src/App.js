@@ -7,6 +7,7 @@ import CreatorForm from './components/creator-form/CreatorForm';
 import BuyerSelectProject from './components/buyer/buyer-select-project/BuyerSelectProject';
 import MintNFT from './components/buyer/mint-nft/MintNFT';
 import PlanOptions from './components/buyer/plan-options/PlanOptions';
+import MintConfirmation from "./components/buyer/mint-confirmation/MintConfirmation";
 import { AccountContext, ContractsContext } from "./contexts";
 import {
   networkName,
@@ -87,6 +88,9 @@ function App() {
               <Link to="/mint-nft" style={{ padding: "5px", margin: "5px"}}>
                 Mint NFT
               </Link>
+              <Link to="/mint-confirmation" style={{ padding: "5px", margin: "5px"}}>
+                Mint Confirmation
+              </Link>
             </nav>
 
             <Routes>
@@ -96,6 +100,7 @@ function App() {
               <Route path="/select-project" element={<BuyerSelectProject />} />
               <Route path="/plan-options" element={<PlanOptions />} />
               <Route path="/mint-nft" element={<MintNFT />} />
+              <Route path="/mint-confirmation" element={<MintConfirmation />} />
             </Routes>
           </div>
         </BrowserRouter>

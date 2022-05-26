@@ -77,7 +77,7 @@ export default function CreatorForm() {
                                     id="demo-simple-select"
                                     // value={age}
                                     label="Subscription Limit"
-                                    onChange={handleLimitChange}
+                                    // onChange={handleLimitChange}
                                 >
                                     <MenuItem value={10}>Yes</MenuItem>
                                     <MenuItem value={20}>No</MenuItem>
