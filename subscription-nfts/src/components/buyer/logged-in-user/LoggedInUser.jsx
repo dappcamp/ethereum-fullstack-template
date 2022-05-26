@@ -20,18 +20,11 @@ const imageAddresses = {
         'https://www.chilloutpoint.com/images/2011/09/mona-lisa-parodies/mona-lisa-parodies-32.jpg',
         'https://i.pinimg.com/236x/68/14/aa/6814aa4a0391e214d28b18953d2bcf32--the-scream-partner.jpg',
         'https://149360821.v2.pressablecdn.com/wp-content/uploads/2022/03/American-gothic-Minion-parody.jpg'
-    ],
-    // premium: [
-    //     'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/1200px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
-    //     'https://media.npr.org/assets/img/2012/05/03/scream_vert-0af6ef30e3859e9b8c92ca5070ba9f8f991a5ce9.jpg',
-    //     'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg/800px-Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg'
-    // ]
+    ]
 }
 
-// const keys = 
-
 export default function LoggedInUser() {
-
+    // Note: disable viewing of subscriber only when user doesn't have appropriate nft
     return (
         <Grid>
             <Paper style={{padding: "5px", width: '300px'}}>
@@ -55,11 +48,6 @@ export default function LoggedInUser() {
                     return <StyledImage image={image} />
                 })}
             </Grid>
-            {/* <Grid container>
-                {imageAddresses.premium.map((image) => {
-                    return <StyledImage image={image} />
-                })}
-            </Grid> */}
         </Grid>
     );
 }
