@@ -1,6 +1,7 @@
 import { Box, Button, Grid, TextField, Typography, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import * as React from 'react';
 import { useContracts } from '../../contexts';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreatorForm() {
     const { nftSubContract } = useContracts();
@@ -26,12 +27,13 @@ export default function CreatorForm() {
         setValue(event.target.value);
     }
 
+    let navigate = useNavigate();
     const mintNft = async (address) => {
         try {
             // will need to define this stuff
             // const txn = await nftSubContract.mint(address);
             // await txn.wait();
-            console.log('try');
+            navigate("/creator-confirmation");
 
         } catch (e) {
             console.log(e);
