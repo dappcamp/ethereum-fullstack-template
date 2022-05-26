@@ -1,6 +1,6 @@
 import { Box, Button, Grid, TextField, Typography, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import * as React from 'react';
-import { useContracts } from '../../contexts';
+import { useContracts } from '../../../contexts';
 import { useNavigate } from 'react-router-dom';
 
 export default function CreatorForm() {

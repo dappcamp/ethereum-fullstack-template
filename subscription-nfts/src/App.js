@@ -3,11 +3,12 @@ import Header from './components/all-pages/Header';
 import { Link, Route, Routes, BrowserRouter } from 'react-router-dom';
 import HomePage from './components/home-page/HomePage';
 import CreatorBuyer from './components/creator-or-buyer/CreatorBuyer';
-import CreatorForm from './components/creator-form/CreatorForm';
+import CreatorForm from './components/creator/creator-form/CreatorForm';
 import BuyerSelectProject from './components/buyer/buyer-select-project/BuyerSelectProject';
 import MintNFT from './components/buyer/mint-nft/MintNFT';
 import PlanOptions from './components/buyer/plan-options/PlanOptions';
 import MintConfirmation from "./components/buyer/mint-confirmation/MintConfirmation";
+import LoggedInUser from "./components/buyer/logged-in-user/LoggedInUser";
 import { AccountContext, ContractsContext } from "./contexts";
 import {
   networkName,
@@ -16,7 +17,7 @@ import {
   getSignedContract,
   getCurrentAccount,
 } from "./utils/common";
-import CreatorConfirmation from "./components/creator-confirmation/CreatorConfirmation";
+import CreatorConfirmation from "./components/creator/creator-confirmation/CreatorConfirmation";
 
 function App() {
   const [account, setAccount] = useState(null);
@@ -95,6 +96,9 @@ function App() {
               <Link to="/mint-confirmation" style={{ padding: "5px", margin: "5px"}}>
                 Mint Confirmation
               </Link>
+              <Link to="/logged-in-user" style={{ padding: "5px", margin: "5px"}}>
+                Logged In User
+              </Link>
             </nav>
 
             <Routes>
@@ -106,6 +110,7 @@ function App() {
               <Route path="/plan-options" element={<PlanOptions />} />
               <Route path="/mint-nft" element={<MintNFT />} />
               <Route path="/mint-confirmation" element={<MintConfirmation />} />
+              <Route path="/logged-in-user" element={<LoggedInUser />} />
             </Routes>
           </div>
         </BrowserRouter>
