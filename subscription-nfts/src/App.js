@@ -16,6 +16,7 @@ import {
   getSignedContract,
   getCurrentAccount,
 } from "./utils/common";
+import CreatorConfirmation from "./components/creator-confirmation/CreatorConfirmation";
 
 function App() {
   const [account, setAccount] = useState(null);
@@ -79,6 +80,9 @@ function App() {
               <Link to="/creator-form" style={{ padding: "5px", margin: "5px"}}>
                 Creator Form
               </Link>
+              <Link to="/creator-confirmation" style={{ padding: "5px", margin: "5px"}}>
+                Creator Confirmation
+              </Link>
               <Link to="/select-project" style={{ padding: "5px", margin: "5px"}}>
                 Select Project
               </Link>
@@ -97,6 +101,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/creator-or-buyer" element={<CreatorBuyer />} />
               <Route path="/creator-form" element={<CreatorForm />} />
+              <Route path="/creator-confirmation" element={<CreatorConfirmation />} />
               <Route path="/select-project" element={<BuyerSelectProject />} />
               <Route path="/plan-options" element={<PlanOptions />} />
               <Route path="/mint-nft" element={<MintNFT />} />
