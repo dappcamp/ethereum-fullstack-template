@@ -75,7 +75,9 @@ line 972
 
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+// import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 
 
@@ -84,10 +86,63 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
     event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
 }
 */
-
-contract NFTRaffle is Ownable {
-
+/*
+interface IERC165 {
+    /**
+     * @notice Query if a contract implements an interface
+     * @param interfaceId The interface identifier, as specified in ERC-165
+     * @dev Interface identification is specified in ERC-165. This function
+     * uses less than 30,000 gas.
     
+    function supportsInterface(bytes4 interfaceId) external view returns (bool);
+}
+
+contract IERC721 is IERC165  {
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
+
+
+
+    function approve(address to, uint256 tokenId) public;
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) public;
+
+}
+*/
+contract NFTRaffle is Ownable, IERC721Receiver {
+    
+    function transferFrom(address from, address to, uint256 tokenId, address nftTokenContract) internal {
+        // transfer can be called by the Owner or Approved Addresses
+        IERC721(nftTokenContract).safeTransferFrom(from, to, tokenId);
+    }
+
+    function approveAll(address to, address nftTokenContract) internal {
+        // approve can only be called by the owner of the NFT
+        IERC721(nftTokenContract).setApprovalForAll(to, true);
+
+    }
+
+    function checkApproval(uint tokenId, address nftTokenContract) internal view returns(bool) {
+        address approvedAddress = IERC721(nftTokenContract).getApproved(tokenId);
+        return approvedAddress == address(this);
+    } 
+
+    function onERC721Received(address , address , uint256 , bytes memory) external pure override returns (bytes4){
+        return bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
+    }
+
+
+
+    /*
+    function approve(address to, uint256 tokenId) public override {
+        emit Approval(owner, to, tokenId);
+    }
+    
+    function safeTransferFrom(address from, address to, uint256 tokenId) public override {
+        emit Transfer(from, to, tokenId);
+    }
+    */
     // keep track of how many raffles are done.
     uint raffleCount = 0;
 
@@ -116,6 +171,7 @@ contract NFTRaffle is Ownable {
         uint numberOfTicketsSold;
         uint status;
         address[] players; 
+        // mapping(address => uint) ticketsBought;
         int raffleWinnerTicket;
     }
 
@@ -134,6 +190,10 @@ contract NFTRaffle is Ownable {
 
     event Transfer(address to, uint tokenId);
 
+    // remove
+    function approveNFT(address nftTokenContract) external {
+        approveAll(address(this), nftTokenContract);
+    }
 
     function createRaffle( 
         address nftTokenContract, 
@@ -145,14 +205,22 @@ contract NFTRaffle is Ownable {
     ) external {
         // first we need to transfer the NFT.
         require(raffleStartDate >= block.timestamp);
+        require(minimumNumberOfTickets > 0);
+        // max raffle Duration?
+        require(ticketPrice > 0);
+        require(IERC721(nftTokenContract).ownerOf(nftTokenId) == msg.sender);
+
         // transfering the NFT to contract
             // 1. The holder has to approve the contract. (calling the approve or approveAll on the NFT contract itself)
             // 2. wehave to check that the raffle creator has done so. 
             // 3. they sign a "written text contract" where the terms & conditions of the raffle are specified. line 572
             // 2. The holder has to transfer the NFT.
-
-        // Transfer NFT to the contract, until raffle is cancelled / unsuccessful or finished then it is able to be claimed.
         
+
+        // first the raffle creator must have approved the nft to the contract.
+        // require(checkApproval(nftTokenId, nftTokenContract));
+        // Transfer NFT to the contract, until raffle is cancelled / unsuccessful or finished then it is able to be claimed.
+        transferFrom(msg.sender, address(this), nftTokenId, nftTokenContract);
         // Will fail if it has not been approved. (done from the frontend).
         // nftTokenContract.transferFrom(msg.sender, address(this), nftTokenId);
 
@@ -162,8 +230,7 @@ contract NFTRaffle is Ownable {
        
 
         ++raffleCount;
-        raffles[raffleCount] = 
-        Raffle({
+        raffles[raffleCount] = Raffle({
             raffleId: raffleCount,
             creationDate: block.timestamp,
             host: msg.sender,
@@ -240,6 +307,13 @@ contract NFTRaffle is Ownable {
 
         raffle.players = new address[](0); // do we want to delete all the players of a raffle when it is completed?
     }
+
+    /*
+    function claimMoney() {
+        uint amountToClaim = ticketsBought[msg.sender]*ticketPrice;
+                                
+    }
+    */
 
     // 2 options:
     // 1. user performs the transfer themselves.
