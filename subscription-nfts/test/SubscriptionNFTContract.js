@@ -2,9 +2,13 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("SubscriptionNFT Contract", () => {
-    let SubscriptionNFTContract, subscriptionNFTContract;
+    let SubscriptionNFTContract, subscriptionNFTContract, onwer, account1;
 
     beforeEach(async () => {
+        const accounts = await ethers.getContractFactory("SubscriptionNFT");
+        owner = accounts[0];
+        account1 = accounts[1];
+
         SubscriptionNFTContract = await ethers.getContractFactory("SubscriptionNFTContract");
         subscriptionNFTContract = await SubscriptionNFTContract.deploy();
     });
@@ -38,6 +42,20 @@ describe("SubscriptionNFT Contract", () => {
 			await expect(subscriptionNFTContract.connect(owner).addCreator('name', 100, 1))
 				.to.emit(subscriptionNFTContract, "Added")
 				.withArgs('name', 100, 1);
+		});
+	});
+
+    describe("issueSubscriptionNFT", function () {
+		// it("should revert when not called by an owner", async function () {
+		// 	await expect(
+		// 		subscriptionNFTContract.connect(account1).issueSubscriptionNFT(address1, 1)
+		// 	).to.be.revertedWith("Not an owner");
+		// });
+
+		it("should emit an event when subscription NFT is issued", async function () {
+			await expect(subscriptionNFTContract.connect(owner).issueSubscriptionNFT(owner, 1))
+				.to.emit(subscriptionNFTContract, "Issued")
+				.withArgs(owner, 1);
 		});
 	});
 
