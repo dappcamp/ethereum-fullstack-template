@@ -2,7 +2,7 @@
  * @type import('hardhat/config').HardhatUserConfig
  */
  require("@nomiclabs/hardhat-waffle");
- require("dotenv").config();
+ require('dotenv').config({ path: require('find-config')('.env') })
  
  // Possible network values
  const TEST_NETWORK = "TEST_NETWORK"
@@ -23,7 +23,6 @@
      }
    }
  }
- console.log('private key', WALLET_PRIVATE_KEY);
  
  module.exports = {
    solidity: "0.8.1",
