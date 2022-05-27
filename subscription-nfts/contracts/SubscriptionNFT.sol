@@ -13,7 +13,6 @@ contract SubscriptionNFT is ERC721 {
 
     struct TokenData {
         uint256 subscriptionTemplateId;
-        string accessTier;
         uint256 expirationTime;
     }
 
@@ -30,7 +29,7 @@ contract SubscriptionNFT is ERC721 {
 
     constructor() ERC721("SubscriptionNFT", "SUB") {}
 
-    function addCreator(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
+    function createSubscriptionTemplate(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
 
         _subscriptionTemplateIds.increment();
         uint256 newSubscriptionTemplateId =  _subscriptionTemplateIds.current();
