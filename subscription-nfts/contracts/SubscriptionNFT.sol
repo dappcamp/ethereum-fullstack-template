@@ -19,22 +19,35 @@ contract SubscriptionNFT is ERC721 {
 
     mapping(uint256 => TokenData) private _tokenDatas;
 
-    struct SubscriptionOption {
-        string accessTier;
+    struct SubscriptionTemplate {
+        address creatorAddress;
+        string subscriptionName;
         uint256 price;
         uint256 term;
     }
 
-    struct SubscriptionTemplate {
-        address creatorAddress;
-        SubscriptionOption[] subscriptionOptions;
-    }
-
-    mapping(uint256 => SubscriptionTemplate) private _subscriptionTemplates;
+    mapping(uint256 => SubscriptionTemplate) public _subscriptionTemplates;
 
     constructor() ERC721("SubscriptionNFT", "SUB") {}
 
-    function issueSubscriptionNFT(address recipient, uint256 subscriptionTemplateId, uint256 subscriptionOptionSelectionIndex) public returns (uint256) {
+    function addCreator(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
+
+        _subscriptionTemplateIds.increment();
+        uint256 newSubscriptionTemplateId =  _subscriptionTemplateIds.current();
+
+       _subscriptionTemplates[newSubscriptionTemplateId] = SubscriptionTemplate(
+            {
+                creatorAddress: msg.sender,
+                subscriptionName: subscriptionName,
+                price: price,
+                term: term
+            }
+        );
+        return newSubscriptionTemplateId;
+
+    }   
+
+    function issueSubscriptionNFT(address recipient, uint256 subscriptionTemplateId) public returns (uint256) {
 
         // TODO implement payment logic
 
@@ -44,11 +57,10 @@ contract SubscriptionNFT is ERC721 {
 
         _mint(recipient, newTokenId);
 
-        SubscriptionOption memory selectedSubscriptionOption = _subscriptionTemplates[subscriptionTemplateId].subscriptionOptions[subscriptionOptionSelectionIndex];
+        SubscriptionTemplate memory selectedSubscriptionTemplate = _subscriptionTemplates[subscriptionTemplateId];
 
         _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
-        _tokenDatas[newTokenId].accessTier = selectedSubscriptionOption.accessTier;
-        _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionOption.term;
+        _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionTemplate.term;
 
         return newTokenId;
     }
