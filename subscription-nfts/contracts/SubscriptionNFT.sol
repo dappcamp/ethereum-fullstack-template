@@ -29,6 +29,14 @@ contract SubscriptionNFT is ERC721 {
 
     mapping(uint256 => SubscriptionTemplate) public _subscriptionTemplates;
 
+    struct AggregatedTokenData {
+        uint256 tokenId;
+        address ownerAddress;
+        bool expired;
+        TokenData tokenData;
+        SubscriptionTemplate subscriptionData;
+    }
+
     constructor() ERC721("SubscriptionNFT", "SUB") {}
 
 
@@ -73,6 +81,21 @@ contract SubscriptionNFT is ERC721 {
 
         emit Issued(recipient, subscriptionTemplateId);
         return newTokenId;
+    }
+
+    function getAggregatedTokenData(uint256 tokenId) public view returns (AggregatedTokenData memory) {
+
+        TokenData memory tokenData = _tokenDatas[tokenId];
+
+        return AggregatedTokenData (
+            {
+                tokenId: tokenId,
+                ownerAddress: ownerOf(tokenId),
+                expired: (tokenData.expirationTime < block.timestamp),
+                tokenData: tokenData,
+                subscriptionData: _subscriptionTemplates[tokenData.subscriptionTemplateId]
+            }
+        );
     }
 
 }
