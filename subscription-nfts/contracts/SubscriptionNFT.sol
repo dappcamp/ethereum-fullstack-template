@@ -5,6 +5,8 @@ pragma solidity ^0.8.1;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+// import "hardhat/console.sol";
+
 contract SubscriptionNFT is ERC721 {
 
     using Counters for Counters.Counter;
@@ -30,8 +32,13 @@ contract SubscriptionNFT is ERC721 {
 
     constructor() ERC721("SubscriptionNFT", "SUB") {}
 
-    function addCreator(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
+    event Added(string subscriptionName, uint256 price, uint256 term);
+    event Issued(address recipient, uint256 subscriptionTemplateId);
 
+    function addCreator(string memory subscriptionName, uint256 price, uint256 term) public returns (uint256) {
+        require(term == 60 || term == 2629743 || term == 31556926, "Invalid term");
+        require(price > 0 && price < 1000000, "Invalid price");
+        require(bytes(subscriptionName).length > 0 && bytes(subscriptionName).length <= 32, "Invalid name");
         _subscriptionTemplateIds.increment();
         uint256 newSubscriptionTemplateId =  _subscriptionTemplateIds.current();
 
@@ -43,6 +50,8 @@ contract SubscriptionNFT is ERC721 {
                 term: term
             }
         );
+
+        emit Added(subscriptionName, price, term);
         return newSubscriptionTemplateId;
 
     }   
@@ -62,6 +71,7 @@ contract SubscriptionNFT is ERC721 {
         _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
         _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionTemplate.term;
 
+        emit Issued(recipient, subscriptionTemplateId);
         return newTokenId;
     }
 

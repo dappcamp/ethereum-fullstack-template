@@ -5,11 +5,11 @@ describe("SubscriptionNFT Contract", () => {
     let SubscriptionNFTContract, subscriptionNFTContract, onwer, account1;
 
     beforeEach(async () => {
-        const accounts = await ethers.getContractFactory("SubscriptionNFT");
+        const accounts = await ethers.getSigners();
         owner = accounts[0];
         account1 = accounts[1];
 
-        SubscriptionNFTContract = await ethers.getContractFactory("SubscriptionNFTContract");
+        SubscriptionNFTContract = await ethers.getContractFactory("SubscriptionNFT");
         subscriptionNFTContract = await SubscriptionNFTContract.deploy();
     });
 
@@ -22,26 +22,26 @@ describe("SubscriptionNFT Contract", () => {
 
 		it("should revert when invalid price entered", async function () {
 			await expect(
-				subscriptionNFTContract.connect(owner).addCreator('name', 1000000000, 1)
+				subscriptionNFTContract.connect(owner).addCreator('name', 1000000000, 60)
 			).to.be.revertedWith("Invalid price");
 		});
 
         it("should revert when name is too short", async function () {
 			await expect(
-				subscriptionNFTContract.connect(owner).addCreator('', 100, 1)
+				subscriptionNFTContract.connect(owner).addCreator('', 100, 60)
 			).to.be.revertedWith("Invalid name");
 		});
 
         it("should revert when name is too long", async function () {
 			await expect(
-				subscriptionNFTContract.connect(owner).addCreator('namenamenamenamenamenamenamenamenamenamenamenamenamenamename', 100, 1)
+				subscriptionNFTContract.connect(owner).addCreator('namenamenamenamenamenamenamenamenamenamenamenamenamenamename', 100, 60)
 			).to.be.revertedWith("Invalid name");
 		});
 
 		it("should emit an event when subscription options are added", async function () {
-			await expect(subscriptionNFTContract.connect(owner).addCreator('name', 100, 1))
+			await expect(subscriptionNFTContract.connect(owner).addCreator('name', 100, 60))
 				.to.emit(subscriptionNFTContract, "Added")
-				.withArgs('name', 100, 1);
+				.withArgs('name', 100, 60);
 		});
 	});
 
@@ -53,9 +53,9 @@ describe("SubscriptionNFT Contract", () => {
 		// });
 
 		it("should emit an event when subscription NFT is issued", async function () {
-			await expect(subscriptionNFTContract.connect(owner).issueSubscriptionNFT(owner, 1))
+			await expect(subscriptionNFTContract.connect(owner).issueSubscriptionNFT(owner.address, 1))
 				.to.emit(subscriptionNFTContract, "Issued")
-				.withArgs(owner, 1);
+				.withArgs(owner.address, 1);
 		});
 	});
 
