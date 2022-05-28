@@ -1,5 +1,6 @@
 import ProjectCard from "./project-card/ProjectCard";
 
+
 const dummyProjectData = [
     {
         name: 'Netflix',
@@ -22,6 +23,7 @@ const dummyProjectData = [
 ];
 
 export default function BuyerSelectProject() {
+
     return (
         <div>
             {dummyProjectData.map((data) => <ProjectCard data={data} />)}

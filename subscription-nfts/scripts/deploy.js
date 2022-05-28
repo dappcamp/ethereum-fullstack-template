@@ -9,6 +9,7 @@ async function main() {
     await subscriptionNFTContract.deployed();
     console.log("Subscription NFT contract address:", subscriptionNFTContract.address);
 
+    
     saveFrontendFiles(subscriptionNFTContract);
 
 }
