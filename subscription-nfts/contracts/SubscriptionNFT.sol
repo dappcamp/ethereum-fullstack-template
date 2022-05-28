@@ -81,7 +81,7 @@ contract SubscriptionNFT is ERC721 {
         _tokenDatas[newTokenId].subscriptionTemplateId = subscriptionTemplateId;
         _tokenDatas[newTokenId].expirationTime = block.timestamp + selectedSubscriptionTemplate.term;
 
-        emit Issued(recipient, subscriptionTemplateId);
+        emit Issued(msg.sender, subscriptionTemplateId);
         return newTokenId;
     }
    
@@ -96,7 +96,7 @@ contract SubscriptionNFT is ERC721 {
                 ownerAddress: ownerOf(tokenId),
                 expired: (tokenData.expirationTime < block.timestamp),
                 tokenData: tokenData,
-                subscriptionData: _subscriptionTemplates[tokenData.subscriptionTemplateId]
+                subscriptionData: subscriptionTemplates[tokenData.subscriptionTemplateId]
             }
         );
     }

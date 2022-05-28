@@ -22,7 +22,7 @@ const networks = {
 export const networkName = networks[networkId];
 
 export const fetchSubscriptions = async () => {
-  // call the smart contract, read the current greeting value
+
   if (typeof window.ethereum !== "undefined") {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();

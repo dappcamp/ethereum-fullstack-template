@@ -1,6 +1,7 @@
+import {fetchSubscriptions} from "../../../utils/common"
 import ProjectCard from "./project-card/ProjectCard";
 
-
+fetchSubscriptions();
 const dummyProjectData = [
     {
         name: 'Netflix',
