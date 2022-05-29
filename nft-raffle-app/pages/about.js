@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import ProTip from '../src/ProTip';
 import Link from '../src/Link';
 import Copyright from '../src/Copyright';
+import Layout from '../components/Layout';
 
 export default function About() {
   return (
@@ -23,3 +24,7 @@ export default function About() {
     </Container>
   );
 }
+
+About.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
+};
