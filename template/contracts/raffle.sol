@@ -297,17 +297,26 @@ contract NFTRaffle is Ownable, IERC721Receiver {
             uint index = random(raffleId) % raffle.players.length;
             address winner = raffle.players[index];
             payable (winner).transfer(address(this).balance); // token transfer?
+
+            // make the NFT claimable to the winner
+            // make the ether claimable to the raffle creator.
+
             // do we need approve for erc721?
             //payable approve(winner, raffle.tokenId);
             raffle.status = uint(RaffleStatus.Finished);
         } else { // not enough tickets sold. Not sure where else this ogic can live
             raffle.status = uint(RaffleStatus.Failed);
             // transfer back NFT to host address
+            // make the NFT Claimable to the original owner
+            // make the money from the tickets claimable to the ticket holders
         }
 
         raffle.players = new address[](0); // do we want to delete all the players of a raffle when it is completed?
     }
 
+    function claimNFT() {
+
+    }
     /*
     function claimMoney() {
         uint amountToClaim = ticketsBought[msg.sender]*ticketPrice;
